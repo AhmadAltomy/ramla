@@ -1,0 +1,8 @@
+{
+  "label": "🚀 Active Projects",
+  "position": 2,
+  "link": {
+    "type": "generated-index",
+    "description": "Projects currently in development with active TODO lists."
+  }
+}

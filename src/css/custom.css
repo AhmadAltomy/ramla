@@ -1,0 +1,312 @@
+/**
+ * Any CSS included here will be global. The classic template
+ * bundles Infima by default. Infima is a CSS framework designed to
+ * work well for content-centric websites.
+ */
+
+/* You can override the default Infima variables here. */
+:root {
+  --ifm-color-primary: #2563eb;
+  --ifm-color-primary-dark: #1d4ed8;
+  --ifm-color-primary-darker: #1e40af;
+  --ifm-color-primary-darkest: #1e3a8a;
+  --ifm-color-primary-light: #3b82f6;
+  --ifm-color-primary-lighter: #60a5fa;
+  --ifm-color-primary-lightest: #93c5fd;
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.1);
+}
+
+/* For readability concerns, you should choose a lighter palette in dark mode. */
+[data-theme='dark'] {
+  --ifm-color-primary: #60a5fa;
+  --ifm-color-primary-dark: #3b82f6;
+  --ifm-color-primary-darker: #2563eb;
+  --ifm-color-primary-darkest: #1d4ed8;
+  --ifm-color-primary-light: #93c5fd;
+  --ifm-color-primary-lighter: #bfdbfe;
+  --ifm-color-primary-lightest: #dbeafe;
+  --docusaurus-highlighted-code-line-bg: rgba(0, 0, 0, 0.3);
+}
+
+/* TODO Hub Custom Styles */
+
+/* Status Badges */
+.todo-status {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.375rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  margin-right: 0.5rem;
+}
+
+.status-not-started {
+  background-color: #fee2e2;
+  color: #dc2626;
+}
+
+.status-in-progress {
+  background-color: #fef3c7;
+  color: #d97706;
+}
+
+.status-completed {
+  background-color: #d1fae5;
+  color: #059669;
+}
+
+.status-blocked {
+  background-color: #fde2e8;
+  color: #e11d48;
+}
+
+.status-on-hold {
+  background-color: #e0e7ff;
+  color: #6366f1;
+}
+
+/* Dark mode status badges */
+[data-theme='dark'] .status-not-started {
+  background-color: #dc26261a;
+  color: #fca5a5;
+}
+
+[data-theme='dark'] .status-in-progress {
+  background-color: #d977061a;
+  color: #fbbf24;
+}
+
+[data-theme='dark'] .status-completed {
+  background-color: #0596691a;
+  color: #6ee7b7;
+}
+
+[data-theme='dark'] .status-blocked {
+  background-color: #e11d481a;
+  color: #fb7185;
+}
+
+[data-theme='dark'] .status-on-hold {
+  background-color: #6366f11a;
+  color: #a5b4fc;
+}
+
+/* Priority Badges */
+.priority-badge {
+  display: inline-block;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.025em;
+}
+
+.priority-p0 {
+  background-color: #dc2626;
+  color: white;
+}
+
+.priority-p1 {
+  background-color: #ea580c;
+  color: white;
+}
+
+.priority-p2 {
+  background-color: #ca8a04;
+  color: white;
+}
+
+.priority-p3 {
+  background-color: #16a34a;
+  color: white;
+}
+
+/* Progress Bars */
+.progress-container {
+  background-color: #f3f4f6;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  height: 1rem;
+  margin: 0.5rem 0;
+}
+
+[data-theme='dark'] .progress-container {
+  background-color: #374151;
+}
+
+.progress-bar {
+  height: 100%;
+  background: linear-gradient(90deg, #3b82f6, #1d4ed8);
+  transition: width 0.3s ease;
+  border-radius: 0.5rem;
+}
+
+/* Enhanced Tables */
+.table-wrapper {
+  background: var(--ifm-card-background-color);
+  border-radius: 0.5rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  background-color: var(--ifm-color-primary-lightest);
+  padding: 0.75rem;
+  font-weight: 600;
+  text-align: left;
+  border-bottom: 1px solid var(--ifm-table-border-color);
+}
+
+[data-theme='dark'] th {
+  background-color: var(--ifm-color-primary-darkest);
+}
+
+td {
+  padding: 0.75rem;
+  border-bottom: 1px solid var(--ifm-table-border-color);
+}
+
+/* TODO Checkboxes */
+input[type="checkbox"] {
+  margin-right: 0.5rem;
+  transform: scale(1.2);
+}
+
+/* Emoji Consistency */
+.emoji {
+  font-family: "Apple Color Emoji", "Segoe UI Emoji", "Noto Color Emoji", sans-serif;
+  font-size: 1.1em;
+}
+
+/* Card Components */
+.todo-card {
+  background: var(--ifm-card-background-color);
+  border: 1px solid var(--ifm-color-emphasis-200);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.2s ease;
+}
+
+.todo-card:hover {
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+}
+
+/* Highlighting for due dates */
+.due-soon {
+  background-color: #fef3c7;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+}
+
+[data-theme='dark'] .due-soon {
+  background-color: #78350f;
+  color: #fbbf24;
+}
+
+.overdue {
+  background-color: #fee2e2;
+  padding: 0.125rem 0.375rem;
+  border-radius: 0.25rem;
+  font-weight: 500;
+  color: #dc2626;
+}
+
+[data-theme='dark'] .overdue {
+  background-color: #7f1d1d;
+  color: #fca5a5;
+}
+
+/* Team member avatars */
+.team-avatar {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 50%;
+  display: inline-block;
+  margin-right: 0.25rem;
+  border: 2px solid white;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+/* Enhanced code blocks for TODO templates */
+.language-markdown code {
+  font-size: 0.9em;
+  line-height: 1.6;
+}
+
+/* Sidebar customization */
+.menu__list-item--active {
+  background: linear-gradient(90deg, var(--ifm-color-primary-lightest), transparent);
+  border-radius: 0.375rem;
+}
+
+/* Custom admonitions for TODO status */
+.admonition-todo {
+  border-left: 4px solid #f59e0b;
+}
+
+.admonition-completed {
+  border-left: 4px solid #10b981;
+}
+
+.admonition-blocked {
+  border-left: 4px solid #ef4444;
+}
+
+/* Responsive design improvements */
+@media (max-width: 768px) {
+  .todo-card {
+    padding: 1rem;
+    margin: 0.5rem 0;
+  }
+  
+  .team-avatar {
+    width: 1.5rem;
+    height: 1.5rem;
+  }
+  
+  table {
+    font-size: 0.875rem;
+  }
+  
+  th, td {
+    padding: 0.5rem;
+  }
+}
+
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease;
+}
+
+/* Focus states for accessibility */
+button:focus, 
+input:focus, 
+select:focus, 
+textarea:focus {
+  outline: 2px solid var(--ifm-color-primary);
+  outline-offset: 2px;
+}
+
+/* Print styles for TODO lists */
+@media print {
+  .todo-card {
+    break-inside: avoid;
+    border: 1px solid #ccc;
+    box-shadow: none;
+  }
+  
+  .status-badge, .priority-badge {
+    border: 1px solid #000;
+  }
+}

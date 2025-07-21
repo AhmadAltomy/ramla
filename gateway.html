@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KSA Payment Gateway Comparison for React Native</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Chosen Palette: Calm Harmony -->
+    <!-- Application Structure Plan: The application is structured as a decision-making guide. It starts with a broad overview, introduces the main contenders, and then dives into an interactive comparison using filterable cards instead of a static table for better mobile responsiveness and user engagement. This is followed by a visual summary chart for quick feature assessment and concludes with tailored recommendations. This flow guides the user from general awareness to specific, actionable insights, making the complex decision of choosing a payment gateway more manageable. The card-based, filterable structure was chosen because it allows users to actively explore the data based on their priorities (e.g., 'low fees') rather than passively reading a table. -->
+    <!-- Visualization & Content Choices: 
+        1. Report Info: List of top KSA payment gateways (Moyasar, PayTabs, HyperPay, Tap). Goal: Introduce contenders. Viz/Presentation: Logo + summary cards. Interaction: None. Justification: Clear, concise introduction before the deep dive. Library/Method: HTML/Tailwind.
+        2. Report Info: Detailed comparison points (Fees, RN SDK, Payment Methods). Goal: Allow detailed comparison. Viz/Presentation: Interactive card grid. Interaction: Filter buttons ('Lowest Fee', 'Official RN SDK') highlight relevant cards. 'Details' button expands a card to show pros/cons. Justification: This is the most usable and responsive way to present comparative data, empowering users to query the information based on their specific needs. Library/Method: HTML/Tailwind + JS for filtering/toggling.
+        3. Report Info: Feature availability across gateways (Mada, Apple Pay, Recurring, etc.). Goal: Provide a high-level summary of feature parity. Viz/Presentation: Horizontal Bar Chart. Interaction: Hover tooltips on bars. Justification: A chart provides a quick, visual "at-a-glance" understanding of which features are common vs. rare, which is harder to glean from text alone. Library/Method: Chart.js/Canvas.
+        4. Report Info: Overall analysis. Goal: Provide final, actionable advice. Viz/Presentation: Styled text blocks with recommendations for different user personas (startup, enterprise, etc.). Interaction: None. Justification: A clear, text-based summary is best for delivering nuanced recommendations after the user has explored the data. Library/Method: HTML/Tailwind.
+    -->
+    <!-- CONFIRMATION: NO SVG graphics used. NO Mermaid JS used. -->
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f7f4;
+            color: #3d3d3d;
+        }
+        .card-highlight {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 15px -3px rgba(77, 182, 172, 0.3), 0 4px 6px -2px rgba(77, 182, 172, 0.2);
+            border-color: #4DB6AC;
+        }
+        .details-section {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.5s ease-in-out;
+        }
+        .details-section.open {
+            max-height: 500px;
+        }
+        .chart-container {
+            position: relative;
+            width: 100%;
+            max-width: 800px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px;
+            max-height: 400px;
+        }
+        @media (min-width: 768px) {
+            .chart-container {
+                height: 350px;
+            }
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="container mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold text-[#3d3d3d] mb-2">Choosing a Payment Gateway in KSA</h1>
+            <p class="text-lg md:text-xl text-gray-600">An Interactive Guide for React Native Developers (2025)</p>
+        </header>
+
+        <main>
+            <section id="intro" class="max-w-4xl mx-auto text-center mb-16">
+                <h2 class="text-2xl font-semibold mb-4 text-[#4DB6AC]">The Right Choice Matters</h2>
+                <p class="text-gray-700 leading-relaxed">
+                    Selecting a payment gateway in Saudi Arabia involves more than just transaction fees. It's crucial to support local payment methods like Mada, which dominates the market, alongside international cards and growing digital wallets like Apple Pay and STC Pay. This guide focuses on leading gateways that provide robust support and developer-friendly integrations for React Native applications, helping you make an informed decision based on your business needs.
+                </p>
+            </section>
+
+            <section id="comparison" class="mb-16">
+                <h2 class="text-3xl font-bold text-center mb-4">Interactive Gateway Comparison</h2>
+                <p class="text-center text-gray-600 mb-8">Use the filters to highlight gateways based on your priorities.</p>
+                <div class="flex flex-wrap justify-center gap-2 md:gap-4 mb-10" id="filter-buttons">
+                    <button data-filter="clear" class="bg-[#4DB6AC] text-white font-semibold py-2 px-5 rounded-full shadow-md hover:bg-[#3d9a90] transition-all duration-300">View All</button>
+                    <button data-filter="fee" class="bg-white text-[#4DB6AC] border border-[#4DB6AC] font-semibold py-2 px-5 rounded-full shadow-sm hover:bg-gray-50 transition-all duration-300">Lowest Fees</button>
+                    <button data-filter="sdk" class="bg-white text-[#4DB6AC] border border-[#4DB6AC] font-semibold py-2 px-5 rounded-full shadow-sm hover:bg-gray-50 transition-all duration-300">Official RN SDK</button>
+                    <button data-filter="startup" class="bg-white text-[#4DB6AC] border border-[#4DB6AC] font-semibold py-2 px-5 rounded-full shadow-sm hover:bg-gray-50 transition-all duration-300">Best for Startups</button>
+                </div>
+                
+                <div class="grid md:grid-cols-2 lg:grid-cols-2 gap-8" id="gateways-grid">
+                </div>
+            </section>
+            
+            <section id="chart-section" class="mb-16">
+                 <h2 class="text-3xl font-bold text-center mb-4">Feature Availability at a Glance</h2>
+                 <p class="text-center text-gray-600 mb-8">This chart shows how many of the four reviewed gateways support key features.</p>
+                 <div class="bg-white rounded-xl shadow-lg p-4 md:p-6">
+                    <div class="chart-container">
+                        <canvas id="featuresChart"></canvas>
+                    </div>
+                </div>
+            </section>
+
+            <section id="recommendations" class="max-w-4xl mx-auto">
+                <h2 class="text-3xl font-bold text-center mb-8">Our Recommendations</h2>
+                <div class="space-y-6">
+                    <div class="bg-white p-6 rounded-xl shadow-md border-l-4 border-[#4DB6AC]">
+                        <h3 class="font-bold text-xl mb-2">For Startups & Developers: <span class="text-[#4DB6AC]">Moyasar</span></h3>
+                        <p class="text-gray-700">If your priority is a fast, developer-first integration with transparent, competitive pricing and an official React Native SDK, Moyasar is an excellent choice. Their focus on simplicity and strong documentation reduces development time significantly.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-xl mb-2">For Growing Businesses: <span class="text-gray-700">PayTabs</span></h3>
+                        <p class="text-gray-700">If you need a scalable solution with a wide array of features, including invoicing and social media payments, PayTabs is a strong contender. Their tiered plans can accommodate your business as it grows, though you'll want to review the specific fees for your expected volume.</p>
+                    </div>
+                    <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-xl mb-2">For Large Enterprises: <span class="text-gray-700">HyperPay</span></h3>
+                        <p class="text-gray-700">For large-scale operations requiring robust security, extensive customization, and dedicated support, HyperPay is a market leader. Their solutions are trusted by major brands in the region and can handle high transaction volumes with advanced fraud protection.</p>
+                    </div>
+                     <div class="bg-white p-6 rounded-xl shadow-md">
+                        <h3 class="font-bold text-xl mb-2">For Pan-GCC Ambitions: <span class="text-gray-700">Tap</span></h3>
+                        <p class="text-gray-700">If your business model involves expansion across the GCC and MENA regions, Tap's unified platform, which supports a vast range of local payment methods from different countries, can simplify your payment infrastructure significantly.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="text-center mt-16 py-6 border-t border-gray-200">
+            <p class="text-gray-500">Interactive Report generated in 2025. Data is for informational purposes.</p>
+        </footer>
+    </div>
+
+<script>
+    const gatewaysData = [
+        {
+            name: "Moyasar",
+            logo: "M",
+            description: "A developer-focused gateway known for its simplicity and powerful API.",
+            fees: "From 1.5% + 1 SAR",
+            setupFee: "None",
+            reactNativeSDK: "Official SDK",
+            methods: ["Mada", "Visa/MC", "Apple Pay", "STC Pay"],
+            pros: ["Excellent documentation", "Official React Native SDK", "Transparent and competitive pricing"],
+            cons: ["Fewer 'out-of-the-box' features than some enterprise-focused rivals"],
+            tags: ["fee", "sdk", "startup"]
+        },
+        {
+            name: "PayTabs",
+            logo: "PT",
+            description: "A versatile platform offering scalable plans for businesses of all sizes.",
+            fees: "From ~2.85% + 1 SAR (Plan-based)",
+            setupFee: "Plan-dependent (often none for startups)",
+            reactNativeSDK: "Official Wrapper",
+            methods: ["Mada", "Visa/MC", "Apple Pay", "STC Pay", "Amex", "Sadad"],
+            pros: ["Feature-rich (invoicing, etc.)", "Good support for various payment methods", "Scalable plans"],
+            cons: ["Pricing can be complex", "Integration can be more involved than simpler options"],
+            tags: ["sdk"]
+        },
+        {
+            name: "HyperPay",
+            logo: "HP",
+            description: "A leading provider in the MENA region, trusted by large enterprises.",
+            fees: "Quote-based (~1.75% - 2.9% + 1 SAR)",
+            setupFee: "Usually none",
+            reactNativeSDK: "Bridge Required",
+            methods: ["Mada", "Visa/MC", "Apple Pay", "STC Pay", "Amex"],
+            pros: ["Highly secure and reliable", "Excellent for high-volume transactions", "Strong direct Mada partnership"],
+            cons: ["Pricing isn't public", "React Native integration requires more native configuration"],
+            tags: []
+        },
+        {
+            name: "Tap",
+            logo: "T",
+            description: "A unified payment solution with strong support for the entire GCC region.",
+            fees: "From ~2.75% + 0.50 SAR",
+            setupFee: "None",
+            reactNativeSDK: "Wrappers Available",
+            methods: ["Mada", "Visa/MC", "Apple Pay", "Knet", "Fawry"],
+            pros: ["Excellent for multi-country operations", "Simple, unified API", "Clean user interface"],
+            cons: ["Fees can be slightly higher for basic KSA transactions", "Official SDK support may vary"],
+            tags: ["startup"]
+        }
+    ];
+
+    const gatewaysGrid = document.getElementById('gateways-grid');
+    const filterButtonsContainer = document.getElementById('filter-buttons');
+
+    const renderGateways = () => {
+        gatewaysGrid.innerHTML = gatewaysData.map((gateway, index) => `
+            <div id="card-${index}" class="gateway-card bg-white rounded-xl shadow-md border-2 border-transparent transition-all duration-300 p-6 flex flex-col justify-between" data-tags="${gateway.tags.join(',')}">
+                <div>
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 rounded-full bg-[#4DB6AC] flex items-center justify-center text-white font-bold text-2xl mr-4">${gateway.logo}</div>
+                        <h3 class="text-2xl font-bold">${gateway.name}</h3>
+                    </div>
+                    <p class="text-gray-600 mb-6">${gateway.description}</p>
+                    <div class="space-y-3 mb-6 text-sm">
+                        <p><strong>Transaction Fees:</strong> <span class="text-gray-800">${gateway.fees}</span></p>
+                        <p><strong>Setup Fee:</strong> <span class="text-gray-800">${gateway.setupFee}</span></p>
+                        <p><strong>React Native:</strong> <span class="font-medium ${gateway.reactNativeSDK === 'Official SDK' ? 'text-green-600' : 'text-yellow-700'}">${gateway.reactNativeSDK}</span></p>
+                        <p><strong>Key Methods:</strong> <span class="text-gray-800">${gateway.methods.join(', ')}</span></p>
+                    </div>
+                </div>
+                <div>
+                     <div class="details-section" id="details-${index}">
+                        <div class="border-t pt-4 mt-4">
+                             <h4 class="font-semibold mb-2">Pros:</h4>
+                             <ul class="list-disc list-inside text-green-700 text-sm space-y-1 mb-4">
+                                ${gateway.pros.map(pro => `<li>${pro}</li>`).join('')}
+                             </ul>
+                             <h4 class="font-semibold mb-2">Cons:</h4>
+                              <ul class="list-disc list-inside text-red-700 text-sm space-y-1">
+                                ${gateway.cons.map(con => `<li>${con}</li>`).join('')}
+                             </ul>
+                        </div>
+                    </div>
+                    <button class="details-toggle w-full mt-4 text-[#4DB6AC] font-semibold hover:text-[#3d9a90] transition" data-target="${index}">
+                        Show Details
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    };
+    
+    const setupEventListeners = () => {
+        filterButtonsContainer.addEventListener('click', (e) => {
+            if (e.target.tagName === 'BUTTON') {
+                const filter = e.target.dataset.filter;
+                document.querySelectorAll('.gateway-card').forEach(card => {
+                    if (filter === 'clear' || card.dataset.tags.includes(filter)) {
+                        card.classList.remove('card-highlight', 'opacity-50');
+                        card.classList.add('card-highlight');
+                    } else {
+                        card.classList.remove('card-highlight');
+                        card.classList.add('opacity-50');
+                    }
+                });
+                 setTimeout(() => {
+                    document.querySelectorAll('.gateway-card').forEach(card => card.classList.remove('card-highlight', 'opacity-50'));
+                }, 2000);
+            }
+        });
+
+        gatewaysGrid.addEventListener('click', e => {
+            if (e.target.classList.contains('details-toggle')) {
+                const targetIndex = e.target.dataset.target;
+                const detailsSection = document.getElementById(`details-${targetIndex}`);
+                detailsSection.classList.toggle('open');
+                e.target.textContent = detailsSection.classList.contains('open') ? 'Hide Details' : 'Show Details';
+            }
+        });
+    };
+
+    const renderChart = () => {
+        const ctx = document.getElementById('featuresChart').getContext('2d');
+        const chartData = {
+            labels: ["Mada Support", "Apple Pay Support", "Official RN SDK/Wrapper", "Recurring Payments"],
+            datasets: [{
+                label: 'Gateways Supporting Feature',
+                data: [4, 4, 3, 3], 
+                backgroundColor: 'rgba(77, 182, 172, 0.6)',
+                borderColor: 'rgba(77, 182, 172, 1)',
+                borderWidth: 1
+            }]
+        };
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: chartData,
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 4,
+                        ticks: {
+                            stepSize: 1,
+                            color: '#6b7280'
+                        },
+                        grid: {
+                           display: false
+                        }
+                    },
+                    y: {
+                         ticks: {
+                            color: '#3d3d3d',
+                            font: {
+                                weight: '500'
+                            }
+                        },
+                        grid: {
+                           color: '#e5e7eb'
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        backgroundColor: '#3d3d3d',
+                        titleFont: {
+                            weight: 'bold'
+                        },
+                        bodyFont: {
+                            weight: 'normal'
+                        },
+                        callbacks: {
+                            label: function(context) {
+                                return `${context.raw} out of 4 gateways support this.`;
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+        renderGateways();
+        setupEventListeners();
+        renderChart();
+    });
+
+</script>
+</body>
+</html>
