@@ -2,28 +2,40 @@
 
 ## Mobile Application
 
+### Build & Deployment
+
+- [x] Configure the fastlane and firebase distribution for the iOS app.
+- [x] Create a new build for Testing on iOS.
+- [x] Configure the fastlane and firebase distribution for the Android app.
+- [x] Create a new build for Testing on Android.
+
 ### Authentication
 
-- [ ] Fix the register new user with email functionality to ensure sending the right data to the server.
-- [ ] Fix the error handling and user feedback for the login and signup processes.
-- [ ] Implement "Apple Sign In" functionality for iOS users.
+- [x] Fix the register new user with email functionality to ensure sending the right data to the server.
+- [x] Fix the error handling and user feedback for the login and signup processes.
+- [x] Implement "Apple Sign In" functionality for iOS users.
 
 ### Theme & Design
 
-- [ ] Modify the theme of the app to match the Current Power branding.
-- [ ] The Charging History page should have a title on the top of the page.
-- [ ] Enhance the station marker design to not include icon just a circle with the number of active chargers available in the station.
-- [ ] Fix the colors of the status of the charger point (eg. Avilable now it's red not green).
+- [x] Modify the theme of the app to match the Current Power branding.
+- [x] The Charging History page should have a title on the top of the page.
+- [x] Enhance the station marker design to not include icon just a circle with the number of active chargers available in the station.
+- [x] Fix the colors of the status of the charger point (eg. Avilable now it's red not green).
+- [ ] Fix the colors of the background of the onboarding screens and the login and signup screens.
 
 ### Bugs
 
 - [ ] Login & Signup page has scrolling issues.
-- [ ] Fix the Each child in a list should have a unique "key" prop warning in the console. when open the station sheet.
+- [x] Fix the Each child in a list should have a unique "key" prop warning in the console. when open the station sheet.
+- [ ] Hide the center title from some pages like the vehicle management page and the charging history page.
+- [ ] When start charging the status should be changed to "Charging" not "Available". (Update the status of the charger when get the data from the backend).
+- [ ] When the user open the app and not select any vehicle yet it should not show the first car as selected car. Because the user not select any vehicle yet.
 
 ### Vechicle Management
 
-- [ ] User can (add, edit, delete) vehicles that connected to the backend.
+- [x] User can (add, delete) vehicles that connected to the backend.
 - [ ] User can view the selected car details in the Home screen.
+- [ ] User can edit the vehicle details.
 
 ### Home Screen (Map View)
 
@@ -56,6 +68,11 @@
 
 - [ ] Remove the Recent searches static data and make sure it's dynamic.
 - [ ] Implement the real data and real functionality for the search page to get the data from the backend.
+
+### Enhancements
+
+- [ ] Implement the Download receipt feature for the user to download the receipt of the charging session.
+- [ ] Filter the results by the selected vehicle in the stations map view.
 
 ## Admin portal
 
@@ -111,6 +128,11 @@
 - [ ] Create the help and support data.
 - [ ] Implement the editing for the help and support data from the admin portal.
 - [ ] Make sure the app can display the help and support data in the app.
+
+## Notifications System
+
+- [ ] Implement the notifications system to allow users to receive notifications about charging stations, charging points, and other relevant information.
+- [ ] The admin portal should allow the admin to send notifications to users.
 
 ## Deployment & Publishing Checklist
 
